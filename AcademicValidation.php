@@ -17,6 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate Number of Modules Taken
     if (empty($_POST["mods"])) {
         $modulesTakenError = "Number of Modules Taken is required";
+    } elseif (!empty($_POST["mods"]) && $_POST["mods"] > 6) {
+        $modulesTakenError = "Number of Modules Taken can not be greater than 6";
     } else {
         $modulesTaken = $_POST["mods"];
     }
@@ -30,10 +32,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If all fields are valid, you can process the form data
     if (empty($academicLevelError) && empty($modulesTakenError) && empty($degreePursuingError)) {
-        // Process the form data (e.g., save to a database or send an email)
-        // Redirect to a thank you page or perform other actions
-        // For this example, we'll just display a success message
-        echo "Form submitted successfully!";
+        
+        $total_module_cost = $modulesTaken * 25870;
+        $academicLevel_cost = $academicLevel * 2750;
+        $basicData = [
+            'academic' => $academicLevel,
+            'modulesTaken' => $modulesTaken,
+            'degree' => $degreePursuing,
+            'total_cost'=>"$".$total_module_cost+ $academicLevel_cost
+        ];
+        $serializedData = serialize($basicData);
+        setcookie('academicData', $serializedData);
+
+        $academicFile = fopen('academic.txt', 'a') or die('unable to open File');
+        foreach ($basicData as $key => $value) {
+            fwrite($academicFile, $key . ": " . $value . "\n");
+        }
+        fclose($academicFile);
+        header("Location: details.php");
     }
 }
 

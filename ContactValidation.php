@@ -61,10 +61,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If all fields are valid, you can process the form data
     if (empty($addressError) && empty($cityError) && empty($stateError) && empty($zipCodeError) && empty($countryError) && empty($contactNumberError) && empty($emailError)) {
-        // Process the form data (e.g., save to a database or send an email)
-        // Redirect to a thank you page or perform other actions
-        // For this example, we'll just display a success message
-        echo "Form submitted successfully!";
+
+        $data = [
+            'address' => $address,
+            'city' => $city,
+            'state' => $state,
+            'zip' => $zipCode,
+            'country' => $country,
+            'phone' => $contactNumber,
+            'email' => $email
+        ];
+
+        $serializedData = serialize($data);
+        setcookie('contactData', $serializedData);
+
+        $contactFile = fopen('contact.txt', 'a') or die('unable to open File');
+        foreach ($data as $key => $value) {
+            fwrite($contactFile, $key . ": " . $value . "\n");
+        }
+        fclose($contactFile);
+
+        header("Location: academic.php");
+        
     }
 }
 

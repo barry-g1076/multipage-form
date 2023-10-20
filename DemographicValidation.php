@@ -45,10 +45,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If all fields are valid, you can process the form data
     if (empty($idNumberError) && empty($firstNameError) && empty($lastNameError) && empty($dateOfBirthError) && empty($genderError)) {
-        // Process the form data (e.g., save to a database or send an email)
-        // Redirect to a thank you page or perform other actions
-        // For this example, we'll just display a success message
-        echo "Form submitted successfully!";
+        $basicData = [
+            'id_number' => $idNumber,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'date_of_birth' => $dateOfBirth,
+            'gender' => $gender
+        ];
+        $serializedData = serialize($basicData);
+        setcookie('storedData', $serializedData);
+        $demographicFile = fopen('demographic.txt', 'a') or die('unable to open File');
+        foreach ($basicData as $key => $value) {
+            fwrite($demographicFile, $key . ": " . $value . "\n");
+        }
+        fclose($demographicFile);
+        header("Location: contact.php");
     }
 }
 
