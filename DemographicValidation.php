@@ -1,4 +1,5 @@
 <?php
+
 session_start(); // Start the session
 
 // Define variables to store validation errors
@@ -14,7 +15,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $idNumber = $_POST["id_number"];
     }
-
     // Validate First Name
     if (empty($_POST["fname"])) {
         $firstNameError = "First Name is required";
@@ -37,10 +37,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Validate Gender
-    if (empty($_POST["element_4_1"]) && empty($_POST["element_4_2"])) {
+    if (empty($_POST["gender"]) && empty($_POST["element_4_2"])) {
         $genderError = "Gender is required";
     } else {
-        $gender = isset($_POST["element_4_1"]) ? "Male" : "Female";
+        $gender = isset($_POST["gender"]) ? "Male" : "Female";
     }
 
     // If all fields are valid, you can process the form data
@@ -52,19 +52,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// If validation fails, set error messages in the URL
-if (!empty($academicLevelError) || !empty($modulesTakenError) || !empty($degreePursuingError)) {
+// If validation fails, set error messages in the session
+if (!empty($idNumberError) || !empty($firstNameError) || !empty($lastNameError) || !empty($dateOfBirthError) || !empty($genderError)) {
     $_SESSION['idNumberError'] = $idNumberError;
     $_SESSION['firstNameError'] = $firstNameError;
-    $_SESSION['lastNameError'] =
-    $lastNameError;
-    $_SESSION['dateOfBirthError'] =
-    $dateOfBirthError;
+    $_SESSION['lastNameError'] = $lastNameError;
+    $_SESSION['dateOfBirthError'] = $dateOfBirthError;
     $_SESSION['genderError'] = $genderError;
 
     header("Location: demographic.php");
     exit;
 }
+
 
 // Clear any previous error messages from the session
 unset($_SESSION['idNumberError']);
@@ -72,4 +71,3 @@ unset($_SESSION['firstNameError']);
 unset($_SESSION['lastNameError']);
 unset($_SESSION['dateOfBirthError']);
 unset($_SESSION['genderError']);
-

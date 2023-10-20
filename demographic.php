@@ -6,12 +6,11 @@
 	<title>Demographic</title>
 	<link rel="stylesheet" type="text/css" href="view.css" media="all">
 	<script type="text/javascript" src="view.js"></script>
-	<script type="text/javascript" src="calendar.js"></script>
 </head>
 
 <body id="main_body">
 
-	<img id="top" src="top.png" alt="">
+	<img id="top" src="./images/top.png" alt="">
 	<div id="form_container">
 
 		<h1><a>Demographic</a></h1>
@@ -71,12 +70,11 @@
 			Completed by [1900204] [Sheldon Smith].
 		</div>
 	</div>
-	<img id="bottom" src="bottom.png" alt="">
+	<img id="bottom" src="./images/bottom.png" alt="">
 	<?php
 	session_start(); // Start the session
-
 	// Check for error messages in session variables and display them
-	if (isset($_SESSION['academicLevelError'])) {
+	if (isset($_SESSION['idNumberError'])) {
 		echo '<div class="error-messages">';
 		echo '<ul>';
 		echo '<li>' . htmlspecialchars($_SESSION['idNumberError']) . '</li>';

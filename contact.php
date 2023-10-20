@@ -1,3 +1,6 @@
+<?php
+session_start(); // Start the session
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -11,11 +14,11 @@
 
 <body id="main_body">
 
-	<img id="top" src="top.png" alt="">
+	<img id="top" src="/images/top.png" alt="">
 	<div id="form_container">
 
 		<h1><a>Contact</a></h1>
-		<form id="form_42741" class="appnitro" method="post" action="">
+		<form id="form_42741" class="appnitro" method="post" action="ContactValidation.php">
 			<div class="form_description">
 				<h2>Contact</h2>
 				<p></p>
@@ -23,35 +26,35 @@
 			<ul>
 
 				<li id="li_2">
-					<label class="description" for="element_2">Address </label>
+					<label class="description" for="address">Address </label>
 
 					<div>
-						<input id="element_2_1" class="element text large" value="" type="text">
-						<label for="element_2_1">Street Address</label>
+						<input name="address" id="address" class="element text large" value="" type="text">
+						<label for="address">Street Address</label>
 					</div>
 
 					<div>
-						<input id="element_2_2" class="element text large" value="" type="text">
-						<label for="element_2_2">Address Line 2</label>
+						<input name="address2" id="address2" class="element text large" value="" type="text">
+						<label for="address2">Address Line 2</label>
 					</div>
 
 					<div class="left">
-						<input id="element_2_3" class="element text medium" value="" type="text">
-						<label for="element_2_3">City</label>
+						<input name="city" id="city" class="element text medium" value="" type="text">
+						<label for="city">City</label>
 					</div>
 
 					<div class="right">
-						<input id="element_2_4" class="element text medium" value="" type="text">
-						<label for="element_2_4">State / Province / Region</label>
+						<input name="state" id="state" class="element text medium" value="" type="text">
+						<label for="state">State / Province / Region</label>
 					</div>
 
 					<div class="left">
-						<input id="element_2_5" class="element text medium" maxlength="15" value="" type="text">
-						<label for="element_2_5">Postal / Zip Code</label>
+						<input name="postal" id="postal" class="element text medium" maxlength="15" value="" type="text">
+						<label for="postal">Postal / Zip Code</label>
 					</div>
 
 					<div class="right">
-						<select class="element select medium" id="element_2_6">
+						<select name="country" class="element select medium" id="country">
 							<option value="" selected="selected"></option>
 							<option value="Afghanistan">Afghanistan</option>
 							<option value="Albania">Albania</option>
@@ -250,19 +253,19 @@
 							<option value="Zimbabwe">Zimbabwe</option>
 
 						</select>
-						<label for="element_2_6">Country</label>
+						<label for="country">Country</label>
 					</div>
 				</li>
 				<li id="li_1">
-					<label class="description" for="element_1">Contact Number </label>
+					<label class="description" for="number">Contact Number </label>
 					<div>
-						<input id="element_1" class="element text small" type="text" maxlength="255" value="" />
+						<input name="number" id="number" class="element text small" type="text" maxlength="255" value="" />
 					</div>
 				</li>
 				<li id="li_3">
-					<label class="description" for="element_3">Email </label>
+					<label class="description" for="email">Email </label>
 					<div>
-						<input id="element_3" class="element text medium" type="text" maxlength="255" value="" />
+						<input name="email" id="email" class="element text medium" type="text" maxlength="255" value="" />
 					</div>
 				</li>
 
@@ -274,10 +277,27 @@
 			</ul>
 		</form>
 		<div id="footer">
-			Completed by [1900204] [Sheldon Smith].
+
 		</div>
 	</div>
-	<img id="bottom" src="bottom.png" alt="">
+	<img id="bottom" src="/images/bottom.png" alt="">
+	<?php
+
+	// Check for error messages in session variables and display them
+	if (isset($_SESSION['addressError'])) {
+		echo '<div class="error-messages">';
+		echo '<ul>';
+		echo '<li>' . htmlspecialchars($_SESSION['addressError']) . '</li>';
+		echo '<li>' . htmlspecialchars($_SESSION['cityError']) . '</li>';
+		echo '<li>' . htmlspecialchars($_SESSION['stateError']) . '</li>';
+		echo '<li>' . htmlspecialchars($_SESSION['zipCodeError']) . '</li>';
+		echo '<li>' . htmlspecialchars($_SESSION['countryError']) . '</li>';
+		echo '<li>' . htmlspecialchars($_SESSION['contactNumberError']) . '</li>';
+		echo '<li>' . htmlspecialchars($_SESSION['emailError']) . '</li>';
+		echo '</ul>';
+		echo '</div>';
+	}
+	?>
 </body>
 
 </html>
